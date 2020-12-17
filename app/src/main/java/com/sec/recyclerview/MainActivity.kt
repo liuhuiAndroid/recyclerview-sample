@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var support: MainSupport
     private lateinit var viewAdapter: MainAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
 
@@ -25,13 +24,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        support = MainSupport().apply {
+        smartRefreshLayout.setOnRefreshListener {
+            initData()
+        }
+
+        viewManager = LinearLayoutManager(this)
+        viewAdapter = createMainAdapter {
             onClickCallback { position, type ->
                 Toast.makeText(this@MainActivity, "$position,$type", Toast.LENGTH_SHORT).show()
             }
         }
-        viewManager = LinearLayoutManager(this)
-        viewAdapter = MainAdapter(support)
 
         recyclerView.apply {
             layoutManager = viewManager
@@ -42,6 +44,23 @@ class MainActivity : AppCompatActivity() {
             add(MainEmptyCell())
         })
 
+        initData()
+        refreshData()
+    }
+
+    private fun refreshData() {
+        GlobalScope.launch(Dispatchers.IO) {
+            delay(3000)
+            val newCells = mutableListOf<ItemCell>()
+            newCells.add(MainTextCell(Topic("A", 1, "2")))
+            viewAdapter.addNewTopic(newCells) {
+                // 滚动到最新一条数据
+                viewManager.scrollToPosition(viewAdapter.itemCount - 1)
+            }
+        }
+    }
+
+    private fun initData() {
         GlobalScope.launch(Dispatchers.IO) {
             // 模拟从网络获取数据
             delay(1500)
@@ -53,16 +72,8 @@ class MainActivity : AppCompatActivity() {
             button.setOnClickListener {
                 viewAdapter.updateTitle(121, "AAA")
             }
-
-            delay(1500)
-            val newCells = mutableListOf<ItemCell>()
-            newCells.add(MainTextCell(Topic("A", 1, "2")))
-            viewAdapter.addNewTopic(newCells) {
-                // 滚动到最新一条数据
-                viewManager.scrollToPosition(viewAdapter.itemCount - 1)
-            }
+            smartRefreshLayout.finishRefresh(2000)
         }
-
     }
 
 }

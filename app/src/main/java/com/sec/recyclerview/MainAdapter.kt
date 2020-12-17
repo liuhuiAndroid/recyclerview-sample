@@ -2,10 +2,8 @@ package com.sec.recyclerview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.util.set
 import androidx.recyclerview.widget.*
 import com.sec.recyclerview.const.AdapterNotifyConst
-import com.sec.recyclerview.model.Topic
 
 class MainAdapter(private val support: MainSupport) : RecyclerView.Adapter<ItemVH>() {
 

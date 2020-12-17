@@ -5,12 +5,7 @@ import com.sec.recyclerview.ItemCell
 import com.sec.recyclerview.ItemVH
 import com.sec.recyclerview.MainSupport
 import com.sec.recyclerview.R
-import com.sec.recyclerview.const.AdapterNotifyConst
-import com.sec.recyclerview.ext.containsEntity
-import com.sec.recyclerview.ext.debounceClick
-import com.sec.recyclerview.ext.sameAs
 import com.sec.recyclerview.model.Topic
-import kotlinx.android.synthetic.main.main_text_view.view.*
 
 class MainEmptyCell : ItemCell {
 
@@ -21,9 +16,9 @@ class MainEmptyCell : ItemCell {
     override fun itemContent(): String = "${System.currentTimeMillis()}"
 
     override fun onCreateViewHolder(itemView: View, support: MainSupport): ItemVH =
-        MainEmptyCellVH(itemView)
+        MainEmptyCellVH(itemView, support)
 
     override fun getTopic(): Topic? = null
 }
 
-class MainEmptyCellVH(itemView: View) : ItemVH(itemView)
+class MainEmptyCellVH(itemView: View, support: MainSupport) : ItemVH(itemView, support)

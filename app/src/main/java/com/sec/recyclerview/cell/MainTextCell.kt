@@ -1,6 +1,7 @@
 package com.sec.recyclerview.cell
 
 import android.view.View
+import coil.load
 import com.sec.recyclerview.ItemCell
 import com.sec.recyclerview.ItemVH
 import com.sec.recyclerview.MainSupport
@@ -26,7 +27,7 @@ class MainTextCell(private val topic: Topic) : ItemCell {
     override fun getTopic(): Topic = topic
 }
 
-class MainTextCellVH(itemView: View, support: MainSupport) : ItemVH(itemView) {
+class MainTextCellVH(itemView: View, support: MainSupport) : ItemVH(itemView, support) {
 
     init {
         itemView.textContent.debounceClick {
@@ -46,6 +47,7 @@ class MainTextCellVH(itemView: View, support: MainSupport) : ItemVH(itemView) {
         itemCell.sameAs<MainTextCell> {
             itemView.textTitle.text = topic?.name
             itemView.textContent.text = topic?.imageUrl
+            itemView.imageView.load(topic?.imageUrl)
         }
     }
 

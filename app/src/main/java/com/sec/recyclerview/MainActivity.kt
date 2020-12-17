@@ -50,20 +50,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshData() {
         GlobalScope.launch(Dispatchers.IO) {
-            delay(3000)
-            val newCells = mutableListOf<ItemCell>()
-            newCells.add(MainTextCell(Topic("A", 1, "2")))
-            viewAdapter.addNewTopic(newCells) {
+            delay(2000)
+            viewAdapter.submitList(5, MainTextCell(Topic("E", 5, "5"))) {
                 // 滚动到最新一条数据
-                viewManager.scrollToPosition(viewAdapter.itemCount - 1)
+                // viewManager.scrollToPosition(viewAdapter.itemCount - 1)
             }
+            delay(1000)
+            viewAdapter.submitList(4, MainTextCell(Topic("D", 4, "4")))
+            delay(1000)
+            viewAdapter.submitList(3, MainTextCell(Topic("C", 3, "3")))
+            delay(1000)
+            viewAdapter.submitList(2, MainTextCell(Topic("B", 2, "2")))
+            delay(1000)
+            viewAdapter.submitList(1, MainTextCell(Topic("A", 1, "1")))
         }
     }
 
     private fun initData() {
         GlobalScope.launch(Dispatchers.IO) {
             // 模拟从网络获取数据
-            delay(1500)
+            delay(800)
             val cells = mutableListOf<ItemCell>()
             topics.forEach {
                 cells.add(MainTextCell(it))

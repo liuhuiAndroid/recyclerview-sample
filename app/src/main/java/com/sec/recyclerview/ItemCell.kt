@@ -2,6 +2,7 @@ package com.sec.recyclerview
 
 import android.view.View
 import androidx.annotation.LayoutRes
+import com.sec.recyclerview.model.Topic
 
 interface ItemCell {
 
@@ -18,6 +19,7 @@ interface ItemCell {
      */
     fun itemContent(): String
 
-    fun onCreateViewHolder(itemView: View): ItemVH
+    fun onCreateViewHolder(itemView: View, support: MainSupport): ItemVH
 
+    fun getTopic(): Topic
 }

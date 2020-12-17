@@ -2,10 +2,10 @@ package com.sec.recyclerview
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.*
+import com.sec.recyclerview.const.AdapterNotifyConst
 
-class MainAdapter : RecyclerView.Adapter<ItemVH>() {
+class MainAdapter(private val support: MainSupport) : RecyclerView.Adapter<ItemVH>() {
 
     private val config: AsyncDifferConfig<ItemCell> =
         AsyncDifferConfig.Builder(object : DiffUtil.ItemCallback<ItemCell>() {
@@ -21,8 +21,6 @@ class MainAdapter : RecyclerView.Adapter<ItemVH>() {
         }).build()
 
     private val differ = AsyncListDiffer(AdapterListUpdateCallback(this), config)
-
-    class MainViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
 
     /**
      * 更新列表
@@ -48,7 +46,7 @@ class MainAdapter : RecyclerView.Adapter<ItemVH>() {
                         viewType,
                         parent,
                         false
-                    )
+                    ), support
                 )
             }
         }
@@ -61,6 +59,19 @@ class MainAdapter : RecyclerView.Adapter<ItemVH>() {
 
     override fun onBindViewHolder(holder: ItemVH, position: Int, payloads: MutableList<Any>) {
         holder.bind(differ.currentList[position], payloads)
+    }
+
+    /**
+     * 设置消息已读状态
+     */
+    fun updateTitle(courses: Int, name: String) {
+        differ.currentList.forEachIndexed { index, itemCell ->
+            val topic = itemCell.getTopic()
+            if (topic != null && topic.courses == courses) {
+                topic.name = name
+                notifyItemChanged(index, AdapterNotifyConst.TEXT_TITLE)
+            }
+        }
     }
 
 }

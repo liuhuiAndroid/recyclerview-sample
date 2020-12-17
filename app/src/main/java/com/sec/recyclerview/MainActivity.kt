@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.sec.recyclerview.cell.MainEmptyCell
 import com.sec.recyclerview.cell.MainTextCell
 import com.sec.recyclerview.model.Topic
 import com.sec.recyclerview.model.topics
@@ -30,6 +29,10 @@ class MainActivity : AppCompatActivity() {
 
         viewManager = LinearLayoutManager(this)
         viewAdapter = createMainAdapter {
+            onRetry {
+                initData()
+                refreshData()
+            }
             onClickCallback { position, type ->
                 Toast.makeText(this@MainActivity, "$position,$type", Toast.LENGTH_SHORT).show()
             }
@@ -40,17 +43,14 @@ class MainActivity : AppCompatActivity() {
             adapter = viewAdapter
         }
 
-        viewAdapter.submitList(mutableListOf<ItemCell>().apply {
-            add(MainEmptyCell())
-        })
-
+        viewAdapter.submitInitCell()
         initData()
         refreshData()
     }
 
     private fun refreshData() {
         GlobalScope.launch(Dispatchers.IO) {
-            delay(2000)
+            delay(3000)
             viewAdapter.submitList(5, MainTextCell(Topic("E", 5, "5"))) {
                 // 滚动到最新一条数据
                 // viewManager.scrollToPosition(viewAdapter.itemCount - 1)
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
     private fun initData() {
         GlobalScope.launch(Dispatchers.IO) {
             // 模拟从网络获取数据
-            delay(800)
+            delay(2000)
             val cells = mutableListOf<ItemCell>()
             topics.forEach {
                 cells.add(MainTextCell(it))

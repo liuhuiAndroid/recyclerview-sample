@@ -5,14 +5,19 @@ class MainSupport {
     /**
      * 简单点击
      */
-    private var clickCallback: ((Int, Int) -> Unit)? = null
+    var clickCallback: ((Int, Int) -> Unit)? = null
 
-    fun invokeClickCallback(position: Int, type: Int) {
-        clickCallback?.invoke(position, type)
-    }
+    /**
+     * 错误页面item点击触发重试功能，
+     */
+    var retry: (() -> Unit)? = null
 
     infix fun onClickCallback(block: (Int, Int) -> Unit) {
         clickCallback = block
+    }
+
+    infix fun onRetry(block: () -> Unit) {
+        retry = block
     }
 
 }

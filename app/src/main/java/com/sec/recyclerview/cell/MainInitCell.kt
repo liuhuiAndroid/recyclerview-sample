@@ -7,18 +7,18 @@ import com.sec.recyclerview.MainSupport
 import com.sec.recyclerview.R
 import com.sec.recyclerview.model.Topic
 
-class MainEmptyCell : ItemCell {
+class MainInitCell : ItemCell {
 
-    override fun layoutResId(): Int = R.layout.main_empty_view
+    override fun layoutResId(): Int = R.layout.main_init_view
 
-    override fun itemId(): String = "MainEmptyCell"
+    override fun itemId(): String = "MainInitCell"
 
-    override fun itemContent(): String = "MainEmptyCell"
+    override fun itemContent(): String = "MainInitCell"
 
     override fun onCreateViewHolder(itemView: View, support: MainSupport): ItemVH =
-        MainEmptyCellVH(itemView)
+        MainInitCellVH(itemView)
 
     override fun getTopic(): Topic? = null
 }
 
-class MainEmptyCellVH(itemView: View) : ItemVH(itemView)
+class MainInitCellVH(itemView: View) : ItemVH(itemView)

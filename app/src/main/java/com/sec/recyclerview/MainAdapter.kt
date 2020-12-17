@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.IntRange
 import androidx.recyclerview.widget.*
+import com.sec.recyclerview.cell.MainInitCell
 import com.sec.recyclerview.const.AdapterNotifyConst
 
 class MainAdapter(private val support: MainSupport) : RecyclerView.Adapter<ItemVH>() {
@@ -30,6 +31,18 @@ class MainAdapter(private val support: MainSupport) : RecyclerView.Adapter<ItemV
         keyList.clear()
         sparseArray.clear()
         differ.submitList(list, callback)
+    }
+
+    /**
+     * 提交初始化页面
+     */
+    fun submitInitCell(
+        errorCell: ItemCell = MainInitCell(),
+        callback: () -> Unit = {}
+    ) {
+        differ.submitList(mutableListOf(errorCell)) {
+            callback.invoke()
+        }
     }
 
     /**

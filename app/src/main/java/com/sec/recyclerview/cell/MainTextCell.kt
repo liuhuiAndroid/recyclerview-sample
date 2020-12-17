@@ -27,11 +27,11 @@ class MainTextCell(private val topic: Topic) : ItemCell {
     override fun getTopic(): Topic = topic
 }
 
-class MainTextCellVH(itemView: View, support: MainSupport) : ItemVH(itemView, support) {
+class MainTextCellVH(itemView: View, support: MainSupport) : ItemVH(itemView) {
 
     init {
         itemView.textContent.debounceClick {
-            support.invokeClickCallback(absoluteAdapterPosition, 1)
+            support.clickCallback?.invoke(absoluteAdapterPosition, 1)
         }
     }
 

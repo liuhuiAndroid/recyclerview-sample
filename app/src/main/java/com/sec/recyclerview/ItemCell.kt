@@ -21,5 +21,5 @@ interface ItemCell {
 
     fun onCreateViewHolder(itemView: View, support: MainSupport): ItemVH
 
-    fun getTopic(): Topic
+    fun getTopic(): Topic?
 }

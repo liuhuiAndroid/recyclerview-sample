@@ -42,14 +42,14 @@ class MainTextCellVH(itemView: View, support: MainSupport) : ItemVH(itemView) {
         bindAll(itemCell, itemCell.getTopic())
     }
 
-    private fun bindAll(itemCell: ItemCell, topic: Topic) {
+    private fun bindAll(itemCell: ItemCell, topic: Topic?) {
         itemCell.sameAs<MainTextCell> {
-            itemView.textTitle.text = topic.name
-            itemView.textContent.text = topic.imageUrl
+            itemView.textTitle.text = topic?.name
+            itemView.textContent.text = topic?.imageUrl
         }
     }
 
-    private fun bindText(itemCell: ItemCell, topic: Topic) {
-        itemView.textTitle.text = topic.name
+    private fun bindText(itemCell: ItemCell, topic: Topic?) {
+        itemView.textTitle.text = topic?.name
     }
 }
